@@ -1,6 +1,7 @@
 ﻿using Flir.Atlas.Image;
 using Flir.Atlas.Live.Device;
 using Flir.Atlas.Live.Discovery;
+using Flir.Atlas.Live.Remote;
 using System;
 using System.IO;
 
@@ -65,6 +66,9 @@ internal class Program
                     return;
                 }
 
+                // Ajuste de foco automático antes de capturar a imagem
+                SetAutoFocus();
+
                 image.EnterLock();
                 if (image is ThermalImage thermalImage)
                 {
@@ -83,6 +87,27 @@ internal class Program
             }
         }
 
+        // Método para ativar o foco automático na câmera
+        private void SetAutoFocus()
+        {
+            try
+            {
+                if (Camera != null && Camera.RemoteControl != null)
+                {
+                    Camera.RemoteControl.Focus.Mode(FocusMode.Auto);
+                    Console.WriteLine("Foco automático ajustado com sucesso.");
+                }
+                else
+                {
+                    Console.WriteLine("Câmera ou controle remoto não disponível para ajustar o foco.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao ajustar o foco: {ex.Message}");
+            }
+        }
+
         // Método auxiliar para obter a imagem atual da câmera
         private ImageBase GetImage()
         {
@@ -94,7 +119,7 @@ internal class Program
     {
         // Leitura de parâmetros de linha de comando ou uso de valores padrão
         string ipAddress = args.Length > 0 ? args[0] : "169.254.45.1";
-        string savePath = args.Length > 1 ? args[1] : @"c:\tmp\test.jpg";
+        string savePath = args.Length > 1 ? args[1] : @"c:\tmp\test1.jpg";
 
         Console.WriteLine("Iniciando controle da câmera térmica...");
 
