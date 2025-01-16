@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net4.8</TargetFramework>   
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flir.Atlas.Cronos" Version="7.5.0" />
+  </ItemGroup>
+
+</Project>
